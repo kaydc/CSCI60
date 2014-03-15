@@ -17,7 +17,7 @@ public:
     typedef int value_type;
 
     // CONSTRUCTOR
-    node(const value_type & = value_type(),
+    node(const value_type & = value_type(), //Why value_type ()?
          node * = NULL);
 
     // pre:

@@ -18,7 +18,7 @@ void node::set_link(node * p)
     link_field = p;
 }
 
-node::value_type node::data() const
+node::value_type node::data() const //why value_type node?
 {
     return data_field;
 }
@@ -26,14 +26,16 @@ node::value_type node::data() const
 node * node::link()
 {
     return link_field;
-}
+}                               //whats the main difference between these two
 
 const node * node::link() const
 {
     return link_field;
 }
 
-std::size_t list_length(const node *head_ptr)
+// pre: head_ptr points to the first node of a list
+// post: returns the number of nodes in this list
+std::size_t list_length(const node *head_ptr)  //why are we putting size_t in front of fcn?
 {
     std::size_t ans(0);
     for (const node *p = head_ptr; p != NULL; p = p->link())
@@ -42,12 +44,20 @@ std::size_t list_length(const node *head_ptr)
 
 }
 
+// pre: head_ptr is the address of the first node in a list
+// post: a new node has been inserted at the front of
+//       the list; head_ptr has been updated to the
+//       address of the new node
 void list_head_insert(node * & head_ptr,
                       const node::value_type &entry)
 {
-    head_ptr = new node(entry, head_ptr);
+    head_ptr = new node(entry, head_ptr); //shouldnt this be other way around?
 }
 
+// pre: previous_ptr is the address of a node in a linked list
+//      can't be NULL
+// post: a new node whose data field is entry has been inserted
+//       immediately after the given node in this list
 void list_insert(node *previous_ptr, const node::value_type &entry)
 {
     assert(previous_ptr != NULL);
@@ -56,16 +66,21 @@ void list_insert(node *previous_ptr, const node::value_type &entry)
     previous_ptr->set_link(n);
 }
 
+// pre: head_ptr is the address of the head node in a linked list
+// post: returns the address of the first node in this list
+//       whose data field is entry
+//       returns NULL if no such node exists
 node * list_search(node *head_ptr, const node::value_type &entry)
 {
     node *p;
-    for (p = head_ptr; p != NULL && p->data() != entry;
+    for (p = head_ptr; p != NULL && p->data() != entry; //walk through this basic for loop
          p = p->link())
         ;
     return p;
 }
 
-const node * list_search(const node *head_ptr, const node::value_type &entry)
+
+const node * list_search(const node *head_ptr, const node::value_type &entry) //why is fcn a pointer?
 {
     const node *p;
     for (p = head_ptr; p != NULL && p->data() != entry;
@@ -95,6 +110,9 @@ const node * list_locate(const node *head_ptr, std::size_t pos)
     return p;
 }
 
+// pre: head_ptr is the address of the first node in a linked list
+// post: the node has been removed; head_ptr has been
+//       updated to the address of its successor
 void list_head_remove(node * & head_ptr)
 {
     if (head_ptr == NULL)
@@ -104,6 +122,9 @@ void list_head_remove(node * & head_ptr)
     delete temp;
 }
 
+// pre: previous_ptr is the address of a node in a linked list
+// post: the node following the given node has been removed
+//       from the linked list
 void list_remove(node *previous_ptr)
 {
     if (previous_ptr == NULL)
@@ -139,5 +160,4 @@ void  list_copy(node *source_ptr, node *&head_ptr, node *&tail_ptr)
         tail_ptr = tail_ptr->link();
     }
 }
-
 
